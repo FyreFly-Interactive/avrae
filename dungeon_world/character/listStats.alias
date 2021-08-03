@@ -1,0 +1,45 @@
+embed
+<drac2>
+failure_title = "OOPS :("
+failure_color = 'db0000'
+
+mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
+
+if uvar_exists('activeDwCharacter'):
+	if uvar_exists('dwCharacters'):
+		dwCharacters = load_json(get('dwCharacters'))
+		character_statsVarname = get('activeDwCharacter')
+		character_stats = dwCharacters[character_statsVarname]
+		
+		title = f"Character Stats for **{character_stats['name']}**"
+		message = f"""
+		**Base Stats**:
+		{"Strength:": <14}{character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
+		{"Wizdom:": <14} {character_stats['wizdom']} : {mod_evaluator[int(character_stats['wizdom'])]}
+		{"Intelegence:": <14} {character_stats['intelegence']} : {mod_evaluator[int(character_stats['intelegence'])]}
+		{"Dexterity:": <14} {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
+		{"Charisma:": <14} {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
+		{"Constitution:": <14}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
+		**Health Stats**
+		HP: {character_stats['hit_points']}
+		Armor: {character_stats['armor']}
+		**Other**
+		Max Carry: {character_stats['max_carry']}
+		"""
+		color = character_stats['color']
+
+	else:
+		title = failure_title
+		message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+		color = failure_color
+else:
+	title = failure_title
+	message = "No active character set. Can be set with `!setCharacter <name|list_index>`"
+	color = failure_color
+
+</drac2>
+
+-title "<title>"
+-desc "<message>"
+-color <color>
+-footer "{{f"""{"Hi": <16} StackOverflow!"""}}"

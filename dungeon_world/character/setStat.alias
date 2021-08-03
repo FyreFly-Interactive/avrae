@@ -1,0 +1,62 @@
+embed
+<drac2>
+failure_title = "OOPS :("
+failure_color = 'db0000'
+
+class_bonuses = {
+    "barbarian": {"health": 8, "load": 8},"bard": {"health": 6, "load": 9},"cleric":{"health": 8, "load": 10},"druid":{"health": 6, "load": 6},"fighter":{"health": 10, "load": 12},"ranger":{"health": 8, "load": 11},"paladin":{"health": 10, "load": 12},"theif":{"health": 6, "load": 9},"wizard":{"health": 4, "load": 7},
+}
+mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
+
+args = argparse(&ARGS&)
+
+if uvar_exists('activeDwCharacter'):
+	if uvar_exists('dwCharacters'):
+		dwCharacters = load_json(get('dwCharacters'))
+		activeCharacterVarname = get('activeDwCharacter')
+		activeCharacter = dwCharacters[activeCharacterVarname]
+		
+		new_stats = {
+			"strength": args.last('str', default=activeCharacter['strength']),
+			"wizdom": args.last('wiz', default=activeCharacter['strength']),
+			"intelegence": args.last('int', default=activeCharacter['strength']),
+			"dexterity": args.last('dex', default=activeCharacter['strength']),
+			"charisma": args.last('cha', default=activeCharacter['strength']),
+			"constitution": args.last('con', default=activeCharacter['strength']),
+			"armor": args.last('armour', default=activeCharacter['strength']),
+			"hit_points": int(args.last('con', default=activeCharacter['strength'])) + class_bonuses[activeCharacter['class']]['health'],
+			"max_carry": int(args.last('str', default=activeCharacter['strength'])) + class_bonuses[activeCharacter['class']]['load'],
+			
+		}
+		activeCharacter.update(new_stats)
+		dwCharacters[activeCharacterVarname] = activeCharacter
+		
+		title = f"Character **{activeCharacter['name']}** Sucessfully Updated"
+		message = f"""
+		**Base Stats**:
+		Strength: {activeCharacter['strength']}:{mod_evaluator[activeCharacter['strength']]}
+		Wizdom: {activeCharacter['wizdom']}:{mod_evaluator[activeCharacter['wizdom']]}
+		Intelegence: {activeCharacter['intelegence']}:{mod_evaluator[activeCharacter['intelegence']]}
+		Dexterity: {activeCharacter['dexterity']}:{mod_evaluator[activeCharacter['dexterity']]}
+		Charisma: {activeCharacter['charisma']}:{mod_evaluator[activeCharacter['charisma']]}
+		Constitution: {activeCharacter['constitution']}:{mod_evaluator[activeCharacter['constitution']]}
+		"""
+	#	title = 'hi'
+	#	message = 'hi'
+		color = activeCharacter['color']
+		
+	else:
+		title = failure_title
+		message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+		color = failure_color
+else:
+	title = failure_title
+	message = "No active character set. Can be set with `!setCharacter <name|list_index>`"
+	color = failure_color
+
+</drac2>
+
+-title "<title>"
+-desc "<message>"
+-footer "{{dump_json(activeCharacter)}}"
+-color <color>
