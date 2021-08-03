@@ -10,21 +10,33 @@ if uvar_exists('activeDwCharacter'):
 		dwCharacters = load_json(get('dwCharacters'))
 		character_statsVarname = get('activeDwCharacter')
 		character_stats = dwCharacters[character_statsVarname]
-		
+
+		level = int(character_stats['level'])
+		xp = int(character_stats['xp'])
+		needed_xp = 7+level
+		zoom = 2
+		frac_b = 10
+		frac_t = int((xp/needed_xp)*(frac_b)*zoom)
+		open_space = frac_b*zoom - frac_t
+		level_progression = ''.ljust(frac_t if frac_t <= frac_b*zoom else frac_b*zoom,'◆') +''.rjust(open_space,'◇')
+
 		title = f"Character Stats for **{character_stats['name']}**"
 		message = f"""
-		**Base Stats**:
-		{"Strength:": <14}{character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
-		{"Wizdom:": <14} {character_stats['wizdom']} : {mod_evaluator[int(character_stats['wizdom'])]}
-		{"Intelegence:": <14} {character_stats['intelegence']} : {mod_evaluator[int(character_stats['intelegence'])]}
-		{"Dexterity:": <14} {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
-		{"Charisma:": <14} {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
-		{"Constitution:": <14}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
-		**Health Stats**
-		HP: {character_stats['hit_points']}
-		Armor: {character_stats['armor']}
-		**Other**
-		Max Carry: {character_stats['max_carry']}
+**Base Stats**:
+{"Strength:": <14}{character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
+{"Wizdom:": <14} {character_stats['wizdom']} : {mod_evaluator[int(character_stats['wizdom'])]}
+{"Intelegence:": <14} {character_stats['intelegence']} : {mod_evaluator[int(character_stats['intelegence'])]}
+{"Dexterity:": <14} {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
+{"Charisma:": <14} {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
+{"Constitution:": <14}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
+**Health Stats**
+HP: {character_stats['hit_points']}
+Armor: {character_stats['armor']}
+**Other**
+Max Carry: {character_stats['max_carry']}
+Xp: {xp}
+Level: {character_stats['level']}
+Level Progress: {level_progression} {xp}/{needed_xp}
 		"""
 		color = character_stats['color']
 
@@ -42,4 +54,3 @@ else:
 -title "<title>"
 -desc "<message>"
 -color <color>
--footer "{{f"""{"Hi": <16} StackOverflow!"""}}"

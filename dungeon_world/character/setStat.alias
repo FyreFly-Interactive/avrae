@@ -18,18 +18,19 @@ if uvar_exists('activeDwCharacter'):
 		
 		new_stats = {
 			"strength": args.last('str', default=activeCharacter['strength']),
-			"wizdom": args.last('wiz', default=activeCharacter['strength']),
-			"intelegence": args.last('int', default=activeCharacter['strength']),
-			"dexterity": args.last('dex', default=activeCharacter['strength']),
-			"charisma": args.last('cha', default=activeCharacter['strength']),
-			"constitution": args.last('con', default=activeCharacter['strength']),
-			"armor": args.last('armour', default=activeCharacter['strength']),
-			"hit_points": int(args.last('con', default=activeCharacter['strength'])) + class_bonuses[activeCharacter['class']]['health'],
+			"wizdom": args.last('wiz', default=activeCharacter['wizdom']),
+			"intelegence": args.last('int', default=activeCharacter['intelegence']),
+			"dexterity": args.last('dex', default=activeCharacter['dexterity']),
+			"charisma": args.last('cha', default=activeCharacter['charisma']),
+			"constitution": args.last('con', default=activeCharacter['constitution']),
+			"armor": args.last('armour', default=activeCharacter['armor']),
+			"hit_points": int(args.last('con', default=activeCharacter['constitution'])) + class_bonuses[activeCharacter['class']]['health'],
 			"max_carry": int(args.last('str', default=activeCharacter['strength'])) + class_bonuses[activeCharacter['class']]['load'],
 			
 		}
 		activeCharacter.update(new_stats)
 		dwCharacters[activeCharacterVarname] = activeCharacter
+		set_uvar('dwCharacters',dump_json(dwCharacters))
 		
 		title = f"Character **{activeCharacter['name']}** Sucessfully Updated"
 		message = f"""
@@ -41,8 +42,6 @@ if uvar_exists('activeDwCharacter'):
 		Charisma: {activeCharacter['charisma']}:{mod_evaluator[activeCharacter['charisma']]}
 		Constitution: {activeCharacter['constitution']}:{mod_evaluator[activeCharacter['constitution']]}
 		"""
-	#	title = 'hi'
-	#	message = 'hi'
 		color = activeCharacter['color']
 		
 	else:
@@ -58,5 +57,4 @@ else:
 
 -title "<title>"
 -desc "<message>"
--footer "{{dump_json(activeCharacter)}}"
 -color <color>

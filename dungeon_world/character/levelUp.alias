@@ -1,0 +1,58 @@
+embed
+<drac2>
+failure_title = "OOPS :("
+failure_color = 'db0000'
+
+args = argparse(&ARGS&)
+
+if uvar_exists('activeDwCharacter'):
+	if uvar_exists('dwCharacters'):
+		dwCharacters = load_json(get('dwCharacters'))
+		activeCharacterVarname = get('activeDwCharacter')
+		activeCharacter = dwCharacters[activeCharacterVarname]
+
+		level = int(activeCharacter['level'])
+		xp = int(activeCharacter['xp'])
+		needed_xp = 7+level
+		if xp>=needed_xp:
+			new_stats = {
+				"xp": xp - needed_xp,
+				"level": level + 1
+			}
+			activeCharacter.update(new_stats)
+			dwCharacters[activeCharacterVarname] = activeCharacter
+			set_uvar('dwCharacters',dump_json(dwCharacters))
+
+			title = f"Character **{activeCharacter['name']}** Has Leveled Up!"
+			message = f"""
+Xp: {activeCharacter['xp']},
+Level: {activeCharacter['level']}
+			"""
+			color = activeCharacter['color']
+		else:
+			zoom = 2
+			frac_b = 10
+			frac_t = int((xp/needed_xp)*(frac_b)*zoom)
+			open_space = frac_b*zoom - frac_t
+			level_progression = ''.ljust(frac_t if frac_t <= frac_b*zoom else frac_b*zoom,'◆') +''.rjust(open_space,'◇')
+
+			title = failure_title
+			message = f"""__Looks like you dont have enough Xp to level up yet__
+Level Progress: {level_progression} {xp}/{needed_xp}
+_If this is an error you can add Xp with_ `!addXp [-a <amount>]` _or set it outright with_ `!setXp -xp <non_negative_integer>`
+"""
+			color = failure_color
+	else:
+		title = failure_title
+		message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+		color = failure_color
+else:
+	title = failure_title
+	message = "No active character set. Can be set with `!setCharacter <name|list_index>`"
+	color = failure_color
+
+</drac2>
+
+-title "<title>"
+-desc "<message>"
+-color <color>
