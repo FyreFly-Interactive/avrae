@@ -6,10 +6,15 @@ failure_color = 'db0000'
 
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
 
-failure_consequence = '{{ failure_consequence }}'
-minor_success_consequence = '{{  minor_success_consequence  }}, but you have been awarded **1** Xp for your efforts'
-success_consequence = '{{  success_consequence  }}'
-desc = """{{  desc  }}"""
+failure_consequence = 'Sorry, looks like you cant quite figure it out but you have been awarded **1** Xp for your efforts'
+minor_success_consequence = 'You may ask the GM 1 question from the list below'
+success_consequence = 'You may ask the GM 3 questions from the list below'
+desc = """* What happened here recently?
+* What is about to happen?
+* What should I be on the lookout for?
+* What here is useful or valuable to me?
+* Who’s really in control here?
+* What here is not what it appears to be?"""
 
 if uvar_exists('activeDwCharacter'):
     if uvar_exists('dwCharacters'):
@@ -19,27 +24,25 @@ if uvar_exists('activeDwCharacter'):
         character_statsVarname = get('activeDwCharacter')
         character_stats = dwCharacters[character_statsVarname]
 
-        MOD = mod_evaluator[int(character_stats['{{ stat }}'])]
+        MOD = mod_evaluator[int(character_stats['wizdom'])]
 
         if args.last('aid', args.last('aided')): args.update({'b':args.get('b', []) + ['1']})
         if args.last('hinder', args.last('hindered')): args.update({'b':args.get('b', []) + ['-2']})
         bonus = ("+"+args.join('b', '+', '') if args.get('b') else '')
         r = vroll(f'2d6+{MOD}{bonus}')
 
-
         title = 'Roll Results'
-        message = f"""**{{  move_name  }}:** {str(r)}
+        message = f"""**DiscernRealities:** {str(r)}
 **{'Fail' if r.total < 7 else 'Minor Success' if r.total < 10 else 'Success'}**
 __{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}__
-{f'_{desc}_' if r.total >= 7 else ''}
-"""
+{f"_{desc}_" if r.total >= 7 else ''}
+		"""
         color = character_stats['color']
 
         if r.total < 7:
             character_stats['xp'] += 1
             dwCharacters[character_statsVarname] = character_stats
             set_uvar('dwCharacters',dump_json(dwCharacters))
-        # add in auto damage rolls later
 
     else:
         title = failure_title

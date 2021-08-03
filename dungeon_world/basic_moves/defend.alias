@@ -6,10 +6,15 @@ failure_color = 'db0000'
 
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
 
-failure_consequence = '{{ failure_consequence }}'
-minor_success_consequence = '{{  minor_success_consequence  }}, but you have been awarded **1** Xp for your efforts'
-success_consequence = '{{  success_consequence  }}'
-desc = """{{  desc  }}"""
+failure_consequence = 'You failed but you have been awarded **1** Xp for your efforts'
+minor_success_consequence = 'You gain **1** hold action. Choose from the list below'
+success_consequence = 'You gain **3** hold actions. Choose from the list below'
+desc = """As long as you stand in defense, when you or the thing you defend is attacked you may spend hold actions, 1 for 1, to choose an option:
+
+* Redirect an attack from the thing you defend to yourself
+* Halve the attack’s effect or damage
+* Open up the attacker to an ally giving that ally +1 forward against the attacker
+* Deal damage to the attacker equal to your level"""
 
 if uvar_exists('activeDwCharacter'):
     if uvar_exists('dwCharacters'):
@@ -19,7 +24,7 @@ if uvar_exists('activeDwCharacter'):
         character_statsVarname = get('activeDwCharacter')
         character_stats = dwCharacters[character_statsVarname]
 
-        MOD = mod_evaluator[int(character_stats['{{ stat }}'])]
+        MOD = mod_evaluator[int(character_stats['constitution'])]
 
         if args.last('aid', args.last('aided')): args.update({'b':args.get('b', []) + ['1']})
         if args.last('hinder', args.last('hindered')): args.update({'b':args.get('b', []) + ['-2']})
@@ -28,11 +33,11 @@ if uvar_exists('activeDwCharacter'):
 
 
         title = 'Roll Results'
-        message = f"""**{{  move_name  }}:** {str(r)}
+        message = f"""**Defend:** {str(r)}
 **{'Fail' if r.total < 7 else 'Minor Success' if r.total < 10 else 'Success'}**
 __{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}__
-{f'_{desc}_' if r.total >= 7 else ''}
-"""
+{f"_{desc}_" if r.total >=7 else ''}
+		"""
         color = character_stats['color']
 
         if r.total < 7:

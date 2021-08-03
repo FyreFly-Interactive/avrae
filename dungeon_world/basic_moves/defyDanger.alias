@@ -1,0 +1,64 @@
+embed
+<drac2>
+
+failure_title = "OOPS :("
+failure_color = 'db0000'
+
+mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
+
+failure_consequence = 'Sorry no luck, but you have been awarded **1** Xp for your efforts'
+minor_success_consequence = 'You stumble, hesitate, or flinch: the GM will offer you a worse outcome, hard bargain, or ugly choice'
+success_consequence = 'You do what you set out to and the threat doesn’t come to bear'
+desc = """You defy the danger"""
+
+if uvar_exists('activeDwCharacter'):
+    if uvar_exists('dwCharacters'):
+        args=argparse(&ARGS&)
+
+        stat = f"{'strength' if args.last('str', args.last('strength')) else 'dexterity' if args.last('dex', args.last('dexterity')) else 'constitution' if args.last('con', args.last('constitution')) else 'intelegence' if args.last('int', args.last('intelegence')) else 'wizdom' if args.last('wiz', args.last('wizdom', args.last('wis'))) else 'charisma' if args.last('cha', args.last('charisma')) else ''}"
+        if stat == '':
+            title = failure_title
+            message = """you need to provide the stat you wish to use to defy danger 
+`!defyDanger <str|dex|con|int|wiz|cha>`"""
+            color = failure_color
+        else:
+            dwCharacters = load_json(get('dwCharacters'))
+            character_statsVarname = get('activeDwCharacter')
+            character_stats = dwCharacters[character_statsVarname]
+
+            MOD = mod_evaluator[int(character_stats[stat])]
+
+            if args.last('aid', args.last('aided')): args.update({'b':args.get('b', []) + ['1']})
+            if args.last('hinder', args.last('hindered')): args.update({'b':args.get('b', []) + ['-2']})
+            bonus = ("+"+args.join('b', '+', '') if args.get('b') else '')
+            r = vroll(f'2d6+{MOD}{bonus}')
+
+
+            title = 'Roll Results'
+            message = f"""**DefyDanger:** {str(r)}
+**{'Fail' if r.total < 7 else 'Minor Success' if r.total < 10 else 'Success'}**
+__{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}__
+{f'_{desc}_' if r.total >= 7 else ''}
+"""
+            color = character_stats['color']
+
+            if r.total < 7:
+                character_stats['xp'] += 1
+                dwCharacters[character_statsVarname] = character_stats
+                set_uvar('dwCharacters',dump_json(dwCharacters))
+            # add in auto damage rolls later
+
+
+    else:
+        title = failure_title
+        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+        color = failure_color
+else:
+    title = failure_title
+    message = "No active character set. Can be set with `!setCharacter <name|list_index>`"
+    color = failure_color
+</drac2>
+
+-title "<title>"
+-desc "<message>"
+-color <color>

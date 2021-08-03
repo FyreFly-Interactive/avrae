@@ -6,9 +6,10 @@ failure_color = 'db0000'
 
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
 
-failure_consequence = 'You Missed but you have been awarded **1** Xp for your efforts'
+failure_consequence = 'You missed but you have been awarded **1** Xp for your efforts'
 minor_success_consequence = '**consequence**: you deal your damage to the enemy and the enemy makes an attack against you'
-success_consequence = 'You deal your damage to the enemy and avoid their attack. Roll your damage' #  later this will auto roll for them
+success_consequence = 'You deal your damage to the enemy and avoid their attack' #  later this will auto roll for them
+desc = 'Roll your damage'
 
 if uvar_exists('activeDwCharacter'):
 	if uvar_exists('dwCharacters'):
@@ -29,7 +30,8 @@ if uvar_exists('activeDwCharacter'):
 		title = 'Roll Results'
 		message = f"""**Hack&Slash:** {str(r)}
 **{'Fail' if r.total < 7 else 'Minor Success' if r.total < 10 else 'Success'}**
-{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}
+__{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}__
+{f'_{desc}_' if r.total >= 7 else ''}
 		"""
 		color = character_stats['color']
 
@@ -48,6 +50,6 @@ else:
 	color = failure_color
 </drac2>
 
--title< "<title>"
+-title "<title>"
 -desc "<message>"
 -color <color>
