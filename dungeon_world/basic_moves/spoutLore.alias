@@ -19,12 +19,13 @@ if uvar_exists('activeDwCharacter'):
         character_statsVarname = get('activeDwCharacter')
         character_stats = dwCharacters[character_statsVarname]
 
-        MOD = mod_evaluator[int(character_stats['intelegence'])]
+        stat = 'intelegence'
+        MOD = mod_evaluator[int(character_stats[stat])]
 
         if args.last('aid', args.last('aided')): args.update({'b':args.get('b', []) + ['1']})
         if args.last('hinder', args.last('hindered')): args.update({'b':args.get('b', []) + ['-2']})
         bonus = ("+"+args.join('b', '+', '') if args.get('b') else '')
-        r = vroll(f'2d6+{MOD}{bonus}')
+         r = vroll(f'''2d6+{MOD}{bonus}{f"- 1" if character_stats['debilities'][stat] else ''}''')
 
 
         title = 'Roll Results'
