@@ -7,73 +7,51 @@ Please create a character with the following syntax noting that `name` is a stri
 failure_color = 'db0000'
 
 class_bonuses = {
-    "barbarian": {"health": 8, "load": 8},
-	"bard": {"health": 6, "load": 9},
-	"cleric":{"health": 8, "load": 10},
-	"druid":{"health": 6, "load": 6},
-	"fighter":{"health": 10, "load": 12},
-	"ranger":{"health": 8, "load": 11},
-	"paladin":{"health": 10, "load": 12},
-	"theif":{"health": 6, "load": 9},
-	"wizard":{"health": 4, "load": 7},
+	"barbarian": {"health": 8, "load": 8},"bard": {"health": 6, "load": 9},"cleric":{"health": 8, "load": 10},"druid":{"health": 6, "load": 6},"fighter":{"health": 10, "load": 12},"ranger":{"health": 8, "load": 11},"paladin":{"health": 10, "load": 12},"theif":{"health": 6, "load": 9},"wizard":{"health": 4, "load": 7},
 }
 
-def mod_evaluator(score: int):
-	if score < 4:
-		return -3
-	elif score < 6:
-		return -2
-	elif score < 9:
-		return -1
-	elif score < 13:
-		return 0
-	elif score < 16:
-		return 1
-	elif score < 18:
-		return 2
-	elif score > 17: #scores shouldnt be able to go over 18 but I would rather keep this open than handle more errors :P 
-		return 3
+mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
 
 args = argparse(&ARGS&)
 
 name = args.last('name')
 character_class = args.last('class')
-if (name is not None) and (character_class is not None) and (character_class in class_bonuses.keys()): #name must be given, character_class must be given, character_class must be of standard type
+if (name is not None) and (character_class is not None) and (character_class.lower() in class_bonuses.keys()): #name must be given, character_class must be given, character_class must be of standard type
 	character_class = character_class.lower()
-	
+
 	character_varname = f"dw_character_{name.lower().replace(' ','_')}"
-	
+
 	#chack if character is already assigned
 	character_stats = {
 		"name": name,
-		"class": character_class,
-		"armor": args.last('armour', default =0),
-		"charisma": args.last('cha', default=1),
-		"color": args.last('color', default='c797fc'),
-		"constitution": args.last('con', default=1),
-		"debilities":{"strength":False,"wizdom": False,"intelegence": False,"dexterity": False,"charisma": False,"constitution": False,},
-		"dexterity": args.last('dex', default=1),
-		"hit_points": int(args.last('con', default=1)) + class_bonuses[character_class]['health'],
-		"intelegence": args.last('int', default=1),
-		"level": args.last('level', default=1),
-		"max_carry": int(args.last('str', default=1)) + class_bonuses[character_class]['load'],
+		"class": character_class.lower(),
 		"strength": args.last('str', default=1),
 		"wizdom": args.last('wiz', default=1),
+		"intelegence": args.last('int', default=1),
+		"dexterity": args.last('dex', default=1),
+		"debilities":{"strength":False,"wizdom": False,"intelegence": False,"dexterity": False,"charisma": False,"constitution": False,},
+		"charisma": args.last('cha', default=1),
+		"constitution": args.last('con', default=1),
+		"armor": args.last('armour', default =0),
+		"hit_points": int(args.last('con', default=1)) + class_bonuses[character_class]['health'],
+		"max_carry": int(args.last('str', default=1)) + class_bonuses[character_class]['load'],
 		"xp": args.last('xp', default=0),
+		"level": args.last('level', default=1),
+		"color": args.last('color', default='c797fc')
 	}
-	
+
 	title = f"Character **{name}** Sucessfully Created"
 	message = f"""
 	**Base Stats**:
-	Strength-{character_stats['strength']}:{mod_evaluator(character_stats['strength'])}
-	Wizdom-{character_stats['wizdom']}:{mod_evaluator(character_stats['wizdom'])}
-	Intelegence-{character_stats['intelegence']}:{mod_evaluator(character_stats['intelegence'])}
-	Dexterity-{character_stats['dexterity']}:{mod_evaluator(character_stats['dexterity'])}
-	Charisma-{character_stats['charisma']}:{mod_evaluator(character_stats['charisma'])}
-	Constitution-{character_stats['constitution']}:{mod_evaluator(character_stats['constitution'])}
+	{"Strength": <12}: {character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
+	{"Wizdom": <12}: {character_stats['wizdom']} : {mod_evaluator[int(character_stats['wizdom'])]}
+	{"Intelegence": <12}: {character_stats['intelegence']} : {mod_evaluator[int(character_stats['intelegence'])]}
+	{"Dexterity": <12}: {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
+	{"Charisma": <12}: {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
+	{"Constitution": <12}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
 	"""
 	color = character_stats['color']
-			
+
 	if not uvar_exists('dwCharacters'):
 		dw_characters = {character_varname : character_stats}
 		set_uvar('dwCharacters', dump_json(dw_characters))
