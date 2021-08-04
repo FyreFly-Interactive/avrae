@@ -47,18 +47,19 @@ if (name is not None) and (character_class is not None) and (character_class in 
 	character_stats = {
 		"name": name,
 		"class": character_class,
+		"armor": args.last('armour', default =0),
+		"charisma": args.last('cha', default=1),
+		"color": args.last('color', default='c797fc'),
+		"constitution": args.last('con', default=1),
+		"debilities":{"strength":False,"wizdom": False,"intelegence": False,"dexterity": False,"charisma": False,"constitution": False,},
+		"dexterity": args.last('dex', default=1),
+		"hit_points": int(args.last('con', default=1)) + class_bonuses[character_class]['health'],
+		"intelegence": args.last('int', default=1),
+		"level": args.last('level', default=1),
+		"max_carry": int(args.last('str', default=1)) + class_bonuses[character_class]['load'],
 		"strength": args.last('str', default=1),
 		"wizdom": args.last('wiz', default=1),
-		"intelegence": args.last('int', default=1),
-		"dexterity": args.last('dex', default=1),
-		"charisma": args.last('cha', default=1),
-		"constitution": args.last('con', default=1),
-		"armor": args.last('armour', default =0),
-		"hit_points": int(args.last('con', default=1)) + class_bonuses[character_class]['health'],
-		"max_carry": int(args.last('str', default=1)) + class_bonuses[character_class]['load'],
 		"xp": args.last('xp', default=0),
-		"level": args.last('level', default=1),	
-		"color": args.last('color', default='c797fc')
 	}
 	
 	title = f"Character **{name}** Sucessfully Created"
