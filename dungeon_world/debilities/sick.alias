@@ -1,0 +1,28 @@
+embed
+<drac2>
+
+if uvar_exists('activeDwCharacter'):
+    if uvar_exists('dwCharacters'):
+        args=argparse(&ARGS&)
+
+        dwCharacters = load_json(get('dwCharacters'))
+        character_statsVarname = get('activeDwCharacter')
+
+        stat = 'constitution'
+        dwCharacters[character_statsVarname]['debilities'][stat] = not dwCharacters[character_statsVarname]['debilities'][stat]
+        set_uvar('dwCharacters', dwCharacters)
+
+    else:
+        title = failure_title
+        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+        color = failure_color
+else:
+    title = failure_title
+    message = "No active character set. Can be set with `!setCharacter -i <name|list_index>`"
+    color = failure_color
+
+</drac2>
+
+-title "<title>"
+-desc """<message>"""
+-color <color>
