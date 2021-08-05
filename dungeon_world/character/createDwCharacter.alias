@@ -5,22 +5,14 @@ parsing_failure_message = """im sorry you appear to be missing some variables or
 Please create a character with the following syntax noting that `name` is a string and all others are positive integers in range 1-18: 
 ```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"""
 failure_color = 'db0000'
-
-class_bonuses = {
-	"barbarian": {"health": 8, "load": 8},"bard": {"health": 6, "load": 9},"cleric":{"health": 8, "load": 10},"druid":{"health": 6, "load": 6},"fighter":{"health": 10, "load": 12},"ranger":{"health": 8, "load": 11},"paladin":{"health": 10, "load": 12},"theif":{"health": 6, "load": 9},"wizard":{"health": 4, "load": 7},
-}
-
+class_bonuses = load_json(get_gvar('45f448b6-2c08-4fdc-8581-5c86615b4932'))
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
-
 args = argparse(&ARGS&)
-
 name = args.last('name')
 character_class = args.last('class')
 if (name is not None) and (character_class is not None) and (character_class.lower() in class_bonuses.keys()): #name must be given, character_class must be given, character_class must be of standard type
 	character_class = character_class.lower()
-
 	character_varname = f"dw_character_{name.lower().replace(' ','_')}"
-
 	#chack if character is already assigned
 	character_stats = {
 		"name": name,
@@ -39,7 +31,6 @@ if (name is not None) and (character_class is not None) and (character_class.low
 		"level": args.last('level', default=1),
 		"color": args.last('color', default='c797fc')
 	}
-
 	title = f"Character **{name}** Sucessfully Created"
 	message = f"""
 	**Base Stats**:
@@ -51,7 +42,6 @@ if (name is not None) and (character_class is not None) and (character_class.low
 	{"Constitution": <12}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
 	"""
 	color = character_stats['color']
-
 	if not uvar_exists('dwCharacters'):
 		dw_characters = {character_varname : character_stats}
 		set_uvar('dwCharacters', dump_json(dw_characters))
@@ -68,12 +58,10 @@ if (name is not None) and (character_class is not None) and (character_class.low
 
 	if not uvar_exists('activeDwCharacter'): #if the user does not have a set DW Character set this to be the active character, even if the character exists in dwCharacters
 		set_uvar('activeDwCharacter', character_varname)
-
 else:
 	title = failure_title
 	message = parsing_failure_message
 	color = failure_color
-
 
 </drac2>
 -title "<title>"
