@@ -26,7 +26,7 @@ if uvar_exists('activeDwCharacter'):
 		if args.last('aid', args.last('aided')): args.update({'b':args.get('b', []) + ['1']})
 		if args.last('hinder', args.last('hindered')): args.update({'b':args.get('b', []) + ['-2']})
 		bonus = ("+"+args.join('b', '+', '') if args.get('b') else '')
-		 r = vroll(f'''2d6+{MOD}{bonus}{f"- 1[{debilities[stat]}]" if character_stats['debilities'][stat] else ''}''')
+		r = vroll(f'''2d6+{MOD}{bonus}{f"- 1[{debilities[stat]}]" if character_stats['debilities'][stat] else ''}''')
 
 
 		title = 'Roll Results'
