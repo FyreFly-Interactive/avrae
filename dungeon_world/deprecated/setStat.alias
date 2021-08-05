@@ -16,7 +16,7 @@ if uvar_exists('activeDwCharacter'):
 		
 		new_stats = {
 			"strength": args.last('str', default=activeCharacter['strength']),
-			"wisdom": args.last('wiz', default=activeCharacter['wisdom']),
+			"wisdom": args.last('wis', default=activeCharacter['wisdom']),
 			"intelligence": args.last('int', default=activeCharacter['intelligence']),
 			"dexterity": args.last('dex', default=activeCharacter['dexterity']),
 			"charisma": args.last('cha', default=activeCharacter['charisma']),

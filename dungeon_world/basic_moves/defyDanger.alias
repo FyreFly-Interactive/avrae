@@ -16,7 +16,7 @@ if uvar_exists('activeDwCharacter'):
     if uvar_exists('dwCharacters'):
         args=argparse(&ARGS&)
 
-        stat = f"{'strength' if args.last('str', args.last('strength')) else 'dexterity' if args.last('dex', args.last('dexterity')) else 'constitution' if args.last('con', args.last('constitution')) else 'intelligence' if args.last('int', args.last('intelligence')) else 'wisdom' if args.last('wiz', args.last('wisdom', args.last('wis'))) else 'charisma' if args.last('cha', args.last('charisma')) else ''}"
+        stat = f"{'strength' if args.last('str', args.last('strength')) else 'dexterity' if args.last('dex', args.last('dexterity')) else 'constitution' if args.last('con', args.last('constitution')) else 'intelligence' if args.last('int', args.last('intelligence')) else 'wisdom' if args.last('wis', args.last('wisdom', args.last('wis'))) else 'charisma' if args.last('cha', args.last('charisma')) else ''}"
         if stat == '':
             title = failure_title
             message = """you need to provide the stat you wish to use to defy danger 

@@ -50,7 +50,7 @@ if (name is not None) and (character_class is not None) and (character_class.low
 		if character_varname in dwCharacters.keys():
 			title = failure_title
 			message = """Looks like that character already exists.
-			Characters can be modified by setting them as your active character using `!setCharacter` and then using `!setStat -[str|wiz|int|dex|cha|con] <stat_score>`"""
+			Characters can be modified by setting them as your active character using `!setCharacter` and then using `!setStat -[str|wis|int|dex|cha|con] <stat_score>`"""
 			color = failure_color
 		else:
 			dwCharacters[character_varname] = character_stats
