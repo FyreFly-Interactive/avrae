@@ -16,7 +16,7 @@ if (name is not None) and (character_class is not None) and (character_class.low
 	#chack if character is already assigned
 	character_stats = {
 		"name": name,
-		"class": int(character_class.lower()),
+		"class": character_class.lower(),
 		"strength": int(args.last('str', default=1)),
 		"wisdom": int(args.last('wiz', default=1)),
 		"intelligence": int(args.last('int', default=1)),
