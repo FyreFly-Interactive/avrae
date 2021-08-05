@@ -5,6 +5,7 @@ failure_title = "OOPS :("
 failure_color = 'db0000'
 
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
+debilities = load_json(get_gvar('8eae0ea8-649d-4dae-8f37-47e8fa120fe3'))
 
 failure_consequence = 'Sorry no luck, but you have been awarded **1** Xp for your efforts'
 minor_success_consequence = 'You stumble, hesitate, or flinch: the GM will offer you a worse outcome, hard bargain, or ugly choice'
@@ -15,7 +16,7 @@ if uvar_exists('activeDwCharacter'):
     if uvar_exists('dwCharacters'):
         args=argparse(&ARGS&)
 
-        stat = f"{'strength' if args.last('str', args.last('strength')) else 'dexterity' if args.last('dex', args.last('dexterity')) else 'constitution' if args.last('con', args.last('constitution')) else 'intelegence' if args.last('int', args.last('intelegence')) else 'wizdom' if args.last('wiz', args.last('wizdom', args.last('wis'))) else 'charisma' if args.last('cha', args.last('charisma')) else ''}"
+        stat = f"{'strength' if args.last('str', args.last('strength')) else 'dexterity' if args.last('dex', args.last('dexterity')) else 'constitution' if args.last('con', args.last('constitution')) else 'intelligence' if args.last('int', args.last('intelligence')) else 'wisdom' if args.last('wiz', args.last('wisdom', args.last('wis'))) else 'charisma' if args.last('cha', args.last('charisma')) else ''}"
         if stat == '':
             title = failure_title
             message = """you need to provide the stat you wish to use to defy danger 
@@ -31,7 +32,7 @@ if uvar_exists('activeDwCharacter'):
             if args.last('aid', args.last('aided')): args.update({'b':args.get('b', []) + ['1']})
             if args.last('hinder', args.last('hindered')): args.update({'b':args.get('b', []) + ['-2']})
             bonus = ("+"+args.join('b', '+', '') if args.get('b') else '')
-             r = vroll(f'''2d6+{MOD}{bonus}{f"- 1" if character_stats['debilities'][stat] else ''}''')
+            r = vroll(f'''2d6+{MOD}{bonus}{f"- 1[{debilities[stat]}]" if character_stats['debilities'][stat] else ''}''')
 
 
             title = 'Roll Results'
@@ -51,7 +52,7 @@ __{failure_consequence if r.total < 7 else minor_success_consequence if r.total 
 
     else:
         title = failure_title
-        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
         color = failure_color
 else:
     title = failure_title

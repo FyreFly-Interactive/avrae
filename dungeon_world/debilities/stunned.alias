@@ -7,14 +7,21 @@ if uvar_exists('activeDwCharacter'):
 
         dwCharacters = load_json(get('dwCharacters'))
         character_statsVarname = get('activeDwCharacter')
+        character_stats = dwCharacters[character_statsVarname]
 
-        stat = 'intelegence'
-        dwCharacters[character_statsVarname]['debilities'][stat] = not dwCharacters[character_statsVarname]['debilities'][stat]
-        set_uvar('dwCharacters', dwCharacters)
+        stat = 'intelligence'
+        debility = not character_stats['debilities'][stat]
+        character_stats['debilities'][stat] = debility
+        dwCharacters[character_statsVarname]=character_stats
+        set_uvar('dwCharacters', dump_json(dwCharacters))
+
+        title = f"{character_stats['name']} is{' ' if debility else ' no longer '}feeling stunned"
+        message = f"{'A' if debility else 'The'} -1 to ongoing {stat} rolls has been {'applied' if debility else 'removed'}"
+        color = character_stats['color']
 
     else:
         title = failure_title
-        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
         color = failure_color
 else:
     title = failure_title

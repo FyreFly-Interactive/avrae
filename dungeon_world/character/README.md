@@ -9,10 +9,11 @@ Aliases that are working and that have been deployed to Avrae
 * [listStats](#listStats)
 * [setStat](#setStat)
 * [setXp](#setXp)
+* [setCharacter](#setCharacter)
 
 ##Development Aliases
 Aliases in or soon to be in development.
-* [setCharacter](#setCharacter)
+* listCharacters
 
 ##Deprecated Aliases
 Aliases that are no longer in use

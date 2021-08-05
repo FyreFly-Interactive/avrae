@@ -3,7 +3,7 @@ embed
 failure_title = "OOPS :("
 parsing_failure_message = """im sorry you appear to be missing some variables or they are improperly formatted. 
 Please create a character with the following syntax noting that `name` is a string and all others are positive integers in range 1-18: 
-```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"""
+```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"""
 failure_color = 'db0000'
 class_bonuses = load_json(get_gvar('45f448b6-2c08-4fdc-8581-5c86615b4932'))
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
@@ -16,27 +16,27 @@ if (name is not None) and (character_class is not None) and (character_class.low
 	#chack if character is already assigned
 	character_stats = {
 		"name": name,
-		"class": character_class.lower(),
-		"strength": args.last('str', default=1),
-		"wizdom": args.last('wiz', default=1),
-		"intelegence": args.last('int', default=1),
-		"dexterity": args.last('dex', default=1),
-		"debilities":{"strength":False,"wizdom": False,"intelegence": False,"dexterity": False,"charisma": False,"constitution": False,},
-		"charisma": args.last('cha', default=1),
-		"constitution": args.last('con', default=1),
-		"armor": args.last('armour', default =0),
+		"class": int(character_class.lower()),
+		"strength": int(args.last('str', default=1)),
+		"wisdom": int(args.last('wiz', default=1)),
+		"intelligence": int(args.last('int', default=1)),
+		"dexterity": int(args.last('dex', default=1)),
+		"debilities":{"strength":False,"wisdom": False,"intelligence": False,"dexterity": False,"charisma": False,"constitution": False,},
+		"charisma": int(args.last('cha', default=1)),
+		"constitution": int(args.last('con', default=1)),
+		"armor": int(args.last('armour', default =0)),
 		"hit_points": int(args.last('con', default=1)) + class_bonuses[character_class]['health'],
 		"max_carry": int(args.last('str', default=1)) + class_bonuses[character_class]['load'],
-		"xp": args.last('xp', default=0),
-		"level": args.last('level', default=1),
+		"xp": int(args.last('xp', default=0)),
+		"level": int(args.last('level', default=1)),
 		"color": args.last('color', default='c797fc')
 	}
 	title = f"Character **{name}** Sucessfully Created"
 	message = f"""
 	**Base Stats**:
 	{"Strength": <12}: {character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
-	{"Wizdom": <12}: {character_stats['wizdom']} : {mod_evaluator[int(character_stats['wizdom'])]}
-	{"Intelegence": <12}: {character_stats['intelegence']} : {mod_evaluator[int(character_stats['intelegence'])]}
+	{"wisdom": <12}: {character_stats['wisdom']} : {mod_evaluator[int(character_stats['wisdom'])]}
+	{"intelligence": <12}: {character_stats['intelligence']} : {mod_evaluator[int(character_stats['intelligence'])]}
 	{"Dexterity": <12}: {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
 	{"Charisma": <12}: {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
 	{"Constitution": <12}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
