@@ -33,12 +33,12 @@ if uvar_exists('activeDwCharacter'):
 		title = f"Character **{activeCharacter['name']}** Sucessfully Updated"
 		message = f"""
 		**Base Stats**:
-		Strength: {activeCharacter['strength']}:{mod_evaluator[activeCharacter['strength']]}
-		wisdom: {activeCharacter['wisdom']}:{mod_evaluator[activeCharacter['wisdom']]}
-		intelligence: {activeCharacter['intelligence']}:{mod_evaluator[activeCharacter['intelligence']]}
-		Dexterity: {activeCharacter['dexterity']}:{mod_evaluator[activeCharacter['dexterity']]}
-		Charisma: {activeCharacter['charisma']}:{mod_evaluator[activeCharacter['charisma']]}
-		Constitution: {activeCharacter['constitution']}:{mod_evaluator[activeCharacter['constitution']]}
+Strength: {activeCharacter['strength']}:{mod_evaluator[activeCharacter['strength']]}
+Dexterity: {activeCharacter['dexterity']}:{mod_evaluator[activeCharacter['dexterity']]}
+Constitution: {activeCharacter['constitution']}:{mod_evaluator[activeCharacter['constitution']]}
+Intelligence: {activeCharacter['intelligence']}:{mod_evaluator[activeCharacter['intelligence']]}
+Wisdom: {activeCharacter['wisdom']}:{mod_evaluator[activeCharacter['wisdom']]}
+Charisma: {activeCharacter['charisma']}:{mod_evaluator[activeCharacter['charisma']]}
 		"""
 		color = activeCharacter['color']
 		

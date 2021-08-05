@@ -31,16 +31,16 @@ if (name is not None) and (character_class is not None) and (character_class.low
 		"level": int(args.last('level', default=1)),
 		"color": args.last('color', default='c797fc')
 	}
-	title = f"Character **{name}** Sucessfully Created"
 	message = f"""
-	**Base Stats**:
-	{"Strength": <12}: {character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
-	{"wisdom": <12}: {character_stats['wisdom']} : {mod_evaluator[int(character_stats['wisdom'])]}
-	{"intelligence": <12}: {character_stats['intelligence']} : {mod_evaluator[int(character_stats['intelligence'])]}
-	{"Dexterity": <12}: {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
-	{"Charisma": <12}: {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
-	{"Constitution": <12}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
+**Base Stats**:
+{"Strength": <12}: {character_stats['strength']} : {mod_evaluator[int(character_stats['strength'])]}
+{"Dexterity": <12}: {character_stats['dexterity']} : {mod_evaluator[int(character_stats['dexterity'])]}
+{"Constitution": <12}: {character_stats['constitution']} : {mod_evaluator[int(character_stats['constitution'])]}
+{"Intelligence": <12}: {character_stats['intelligence']} : {mod_evaluator[int(character_stats['intelligence'])]}
+{"Wisdom": <12}: {character_stats['wisdom']} : {mod_evaluator[int(character_stats['wisdom'])]}
+{"Charisma": <12}: {character_stats['charisma']} : {mod_evaluator[int(character_stats['charisma'])]}
 	"""
+	title = f"Character **{name}** Sucessfully Created"
 	color = character_stats['color']
 	if not uvar_exists('dwCharacters'):
 		dw_characters = {character_varname : character_stats}
