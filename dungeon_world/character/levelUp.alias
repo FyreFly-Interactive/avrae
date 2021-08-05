@@ -48,7 +48,7 @@ _If this is an error you can add Xp with_ `!addXp [-a <amount>]` _or set it outr
 		color = failure_color
 else:
 	title = failure_title
-	message = "No active character set. Can be set with `!setCharacter <name|list_index>`"
+	message = "No active character set. Can be set with `!setCharacter -i <name|list_index>`"
 	color = failure_color
 
 </drac2>

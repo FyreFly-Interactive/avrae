@@ -47,7 +47,7 @@ __{failure_consequence if r.total < 7 else minor_success_consequence if r.total 
         color = failure_color
 else:
     title = failure_title
-    message = "No active character set. Can be set with `!setCharacter <name|list_index>`"
+    message = "No active character set. Can be set with `!setCharacter -i <name|list_index>`"
     color = failure_color
 </drac2>
 
