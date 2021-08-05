@@ -1,0 +1,59 @@
+embed
+<drac2>
+
+failure_title = "OOPS :("
+failure_color = 'db0000'
+
+
+idx = argparse(&ARGS&).last('i')
+if idx is not None :
+    if uvar_exists('dwCharacters'):
+        dwCharacters = load_json(get('dwCharacters'))
+        character_names = [ch['name'].lower() for ch in dwCharacters.values()]
+
+        if idx.isnumeric():
+            idx = int(idx)
+            if idx <= len(dwCharacters) and idx > 0:
+                active_characterVarname = list(dwCharacters.keys())[idx-1]
+                set_uvar('activeDwCharacter', active_characterVarname)
+                title = "Active Character Updated"
+                message = f"Active Character is set to {character_names[idx-1]}"
+                color = list(dwCharacters.values())[idx-1]['color']
+            else:
+                title = failure_title
+                message = f"""You dont have a character at that index. Your index range is 1:{len(dwCharacters)}
+_Your Characters_
+{'''
+'''.join([f'{i+1}: {character_names[i]}' for i in range(0,len(dwCharacters))])}
+"""
+                color = failure_color
+        else:
+            if idx.lower() in character_names:
+                tru_idx = character_names.index(idx.lower())
+                active_characterVarname = list(dwCharacters.keys())[tru_idx]
+                set_uvar('activeDwCharacter', active_characterVarname)
+                title = "Active Character Updated"
+                message = f"Active Character is set to {character_names[tru_idx]}"
+                color = list(dwCharacters.values())[tru_idx]['color']
+            else:
+                title = failure_title
+                message = f"""You dont have a character by the name {idx}. If your character name has spaces be sure to wrap it in quotes ie. `\\"Tommy the Slayer\\"`
+_Your Characters_
+{'''
+'''.join([f'{i+1}: {character_names[i]}' for i in range(0,len(dwCharacters))])}
+"""
+                color = failure_color
+
+    else:
+        title = failure_title
+        message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name \"<name>\" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wizdom_score>|-int <intelegence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+        color = failure_color
+else:
+    title = failure_title
+    message = "Missing `-i` flag. `!setCharacter -i <name|index>"
+    color = failure_color
+</drac2>
+
+-title "<title>"
+-desc """<message>"""
+-color <color>

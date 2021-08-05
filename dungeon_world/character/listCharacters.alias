@@ -1,0 +1,14 @@
+embed
+<drac2>
+
+title = "Your Characters"
+message = f"""{'''
+'''.join([f'{i+1}: {character_names[i]}' for i in range(0,len(dwCharacters))])}
+"""
+color = failure_color
+
+</drac2>
+
+-title "<title>"
+-desc "<message>"
+-color <color>
