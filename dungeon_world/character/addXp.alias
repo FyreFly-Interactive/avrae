@@ -10,13 +10,19 @@ if uvar_exists('activeDwCharacter'):
 		dwCharacters = load_json(get('dwCharacters'))
 		activeCharacterVarname = get('activeDwCharacter')
 		activeCharacter = dwCharacters[activeCharacterVarname]
-		
+
+		if '%1%'.isnumeric():
+			xp = int('%1%')
+		elif '%1%'.replace('-','').isnumeric():
+			xp = int('%1%')	# allow them to 'add' negative numbers
+		else:
+			xp = args.last('a', default = 1)
 		new_stats = {
-			"xp": int(activeCharacter['xp']) + args.last('a', default = 1),
+			"xp": int(activeCharacter['xp']) + xp,
 		}
 		activeCharacter.update(new_stats)
 		dwCharacters[activeCharacterVarname] = activeCharacter
-		set_uvar('dwCharacters',dump_json(dwCharacters))
+		set_uvar('dwCharacters', dump_json(dwCharacters))
 		
 		title = f"Character **{activeCharacter['name']}** Xp Sucessfully Updated"
 		message = f"""
