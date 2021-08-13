@@ -3,7 +3,7 @@ embed
 failure_title = "OOPS :("
 parsing_failure_message = """im sorry you appear to be missing some variables or they are improperly formatted. 
 Please create a character with the following syntax noting that `name` is a string and all others are positive integers in range 1-18: 
-```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"""
+```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wis <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"""
 failure_color = 'db0000'
 class_bonuses = load_json(get_gvar('45f448b6-2c08-4fdc-8581-5c86615b4932'))
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
@@ -18,12 +18,12 @@ if (name is not None) and (character_class is not None) and (character_class.low
 		"name": name,
 		"class": character_class.lower(),
 		"strength": int(args.last('str', default=1)),
-		"wisdom": int(args.last('wiz', default=1)),
-		"intelligence": int(args.last('int', default=1)),
 		"dexterity": int(args.last('dex', default=1)),
-		"debilities":{"strength":False,"wisdom": False,"intelligence": False,"dexterity": False,"charisma": False,"constitution": False,},
-		"charisma": int(args.last('cha', default=1)),
 		"constitution": int(args.last('con', default=1)),
+		"intelligence": int(args.last('int', default=1)),
+		"wisdom": int(args.last('wiz', default=1)),
+		"charisma": int(args.last('cha', default=1)),
+		"debilities":{"strength":False,"wisdom": False,"intelligence": False,"dexterity": False,"charisma": False,"constitution": False,},
 		"armor": int(args.last('armour', default =0)),
 		"hit_points": int(args.last('con', default=1)) + class_bonuses[character_class]['health'],
 		"max_carry": int(args.last('str', default=1)) + class_bonuses[character_class]['load'],
@@ -50,7 +50,7 @@ if (name is not None) and (character_class is not None) and (character_class.low
 		if character_varname in dwCharacters.keys():
 			title = failure_title
 			message = """Looks like that character already exists.
-			Characters can be modified by setting them as your active character using `!setCharacter` and then using `!setStat -[str|wis|int|dex|cha|con] <stat_score>`"""
+			Characters can be modified by setting them as your active character using `!setCharacter` and then using `!setStat -[str|wi|int|dex|cha|con] <stat_score>`"""
 			color = failure_color
 		else:
 			dwCharacters[character_varname] = character_stats

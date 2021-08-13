@@ -44,7 +44,7 @@ _If this is an error you can add Xp with_ `!addXp [-a <amount>]` _or set it outr
 			color = failure_color
 	else:
 		title = failure_title
-		message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+		message = get_gvar('2a6cf38d-7e52-4c4b-aef7-1a55f07bd421')
 		color = failure_color
 else:
 	title = failure_title

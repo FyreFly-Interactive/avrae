@@ -15,13 +15,13 @@ if uvar_exists('activeDwCharacter'):
 		activeCharacter = dwCharacters[activeCharacterVarname]
 		
 		new_stats = {
-			"strength": args.last('str', default=activeCharacter['strength']),
-			"wisdom": args.last('wis', default=activeCharacter['wisdom']),
-			"intelligence": args.last('int', default=activeCharacter['intelligence']),
-			"dexterity": args.last('dex', default=activeCharacter['dexterity']),
-			"charisma": args.last('cha', default=activeCharacter['charisma']),
-			"constitution": args.last('con', default=activeCharacter['constitution']),
-			"armor": args.last('armour', default=activeCharacter['armor']),
+			"strength": int(args.last('str', default=activeCharacter['strength'])),
+			"wisdom": int(args.last('wis', default=activeCharacter['wisdom'])),
+			"intelligence": int(args.last('int', default=activeCharacter['intelligence'])),
+			"dexterity": int(args.last('dex', default=activeCharacter['dexterity'])),
+			"charisma": int(args.last('cha', default=activeCharacter['charisma'])),
+			"constitution": int(args.last('con', default=activeCharacter['constitution'])),
+			"armor": int(args.last('armour', default=activeCharacter['armor'])),
 			"hit_points": int(args.last('con', default=activeCharacter['constitution'])) + class_bonuses[activeCharacter['class']]['health'],
 			"max_carry": int(args.last('str', default=activeCharacter['strength'])) + class_bonuses[activeCharacter['class']]['load'],
 			
@@ -44,7 +44,7 @@ Charisma: {activeCharacter['charisma']}:{mod_evaluator[activeCharacter['charisma
 		
 	else:
 		title = failure_title
-		message = "looks like you dont have any character data for Dungeon World. You can add character information with ```!createDwCharacter -name "<name>" -class <barbarian|bard|cleric|druid|fighter|ranger|paladin|theif|wizard> [-str <strength_score>|-wiz <wisdom_score>|-int <intelligence_score>|-dex <dexterity_score>|-cha <charisma_score>|-con <constitution_score>|-xp <current_xp_level>|-level <current_character_level>|-color <hex_color_value>]```"
+		message = get_gvar('2a6cf38d-7e52-4c4b-aef7-1a55f07bd421')
 		color = failure_color
 else:
 	title = failure_title

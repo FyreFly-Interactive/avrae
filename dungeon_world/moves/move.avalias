@@ -8,9 +8,9 @@ mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
 debilities = load_json(get_gvar('8eae0ea8-649d-4dae-8f37-47e8fa120fe3'))
 
 failure_consequence = 'Sorry no luck, but you have been awarded **1** Xp for your efforts'
-minor_success_consequence = 'You stumble, hesitate, or flinch: the GM will offer you a worse outcome, hard bargain, or ugly choice'
-success_consequence = 'You do what you set out to and the threat doesn’t come to bear'
-desc = """You defy the danger"""
+minor_success_consequence = ''
+success_consequence = ''
+desc = """See move description for more information"""
 
 if uvar_exists('activeDwCharacter'):
     if uvar_exists('dwCharacters'):
@@ -19,7 +19,7 @@ if uvar_exists('activeDwCharacter'):
         stat = f"{'strength' if args.last('str', args.last('strength')) else 'dexterity' if args.last('dex', args.last('dexterity')) else 'constitution' if args.last('con', args.last('constitution')) else 'intelligence' if args.last('int', args.last('intelligence')) else 'wisdom' if args.last('wis', args.last('wisdom')) else 'charisma' if args.last('cha', args.last('charisma')) else ''}"
         if stat == '':
             title = failure_title
-            message = """you need to provide the stat you wish to use to defy danger 
+            message = """you need to provide the stat you wish to use to roll for your move 
 `!defyDanger <str|dex|con|int|wiz|cha>`"""
             color = failure_color
         else:
@@ -39,7 +39,7 @@ if uvar_exists('activeDwCharacter'):
             message = f"""**DefyDanger:** {str(r)}
 **{'Fail' if r.total < 7 else 'Minor Success' if r.total < 10 else 'Success'}**
 __{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}__
-{f'_{desc}_' if r.total >= 7 else ''}
+_{desc}_
 """
             color = character_stats['color']
 
