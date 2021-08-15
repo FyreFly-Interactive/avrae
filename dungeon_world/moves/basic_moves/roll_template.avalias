@@ -7,8 +7,8 @@ failure_color = 'db0000'
 mod_evaluator = [-3,-3,-3,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3]
 debilities = load_json(get_gvar('8eae0ea8-649d-4dae-8f37-47e8fa120fe3'))
 
-failure_consequence = '{{ failure_consequence }}'
-minor_success_consequence = '{{  minor_success_consequence  }}, but you have been awarded **1** Xp for your efforts'
+failure_consequence = '{{ failure_consequence }}, but you have been awarded **1** Xp for your efforts'
+minor_success_consequence = '{{  minor_success_consequence  }}'
 success_consequence = '{{  success_consequence  }}'
 desc = """{{  desc  }}"""
 
