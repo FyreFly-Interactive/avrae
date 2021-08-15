@@ -1,0 +1,61 @@
+embed
+<drac2 >
+
+failure_title = "Oopsie Poopsie :("
+failure_color = 'db0000'
+
+mod_evaluator = [-3, -3, -3, -3, -2, -2, -
+                 1, -1, -1, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3]
+debilities = load_json(get_gvar('8eae0ea8-649d-4dae-8f37-47e8fa120fe3'))
+
+failure_consequence = '{{ failure_consequence }}'
+minor_success_consequence = '{{  minor_success_consequence  }}, but you have been awarded **1** Xp for your efforts'
+success_consequence = '{{  success_consequence  }}'
+desc = """{{  desc  }}"""
+
+if uvar_exists('activeDwCharacter'):
+    if uvar_exists('dwCharacters'):
+        args = argparse( & ARGS&)
+
+        dwCharacters = load_json(get('dwCharacters'))
+        character_statsVarname = get('activeDwCharacter')
+        character_stats = dwCharacters[character_statsVarname]
+
+        stat = '{{ stat }}'
+        MOD = mod_evaluator[int(character_stats[stat])]
+
+        if args.last('aid', args.last('aided')):
+            args.update({'b': args.get('b', []) + ['1']})
+        if args.last('hinder', args.last('hindered')):
+            args.update({'b': args.get('b', []) + ['-2']})
+        bonus = ("+"+args.join('b', '+', '') if args.get('b') else '')
+        r = vroll(
+            f'''2d6+{MOD}{bonus}{f"- 1[{debilities[stat]}]" if character_stats['debilities'][stat] else ''}''')
+
+        title = 'Roll Results'
+        message = f"""**{{  move_name  }}:** {str(r)}
+**{'Fail' if r.total < 7 else 'Minor Success' if r.total < 10 else 'Success'}**
+__{failure_consequence if r.total < 7 else minor_success_consequence if r.total < 10 else success_consequence}__
+{f'_{desc}_' if r.total >= 7 else ''}
+"""
+        color = character_stats['color']
+
+        if r.total < 7:
+            character_stats['xp'] += 1
+            dwCharacters[character_statsVarname] = character_stats
+            set_uvar('dwCharacters', dump_json(dwCharacters))
+        # add in auto damage rolls later
+
+    else:
+        title = failure_title
+        message = get_gvar('2a6cf38d-7e52-4c4b-aef7-1a55f07bd421')
+        color = failure_color
+else:
+    title = failure_title
+    message = "No active character set. Can be set with `!setCharacter -i <name|list_index>`"
+    color = failure_color
+</drac2 >
+
+-title "<title>"
+-desc "<message>"
+-color < color >
